@@ -12,6 +12,6 @@
   <button class="start-button" mat-raised-button (click)="startGame()">Start!</button>
 </div>
 
-<app-question *ngIf="showQuestion" [question]="question" [buttonInputs]="buttonInputs" [questionNumber]="questionNumber" (nextQuestion)="nextQuestion()"></app-question>
+<app-question *ngIf="showQuestion" [questionFunction]="questionFunction" [question]="question" [buttonInputs]="buttonInputs" [questionNumber]="questionNumber" (nextQuestionEmitter)="nextQuestion()"></app-question>
 
 <router-outlet></router-outlet>

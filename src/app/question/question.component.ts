@@ -21,9 +21,10 @@ export class QuestionComponent {
   @Input() public question: string = '';
   @Input() public buttonInputs: ButtonProperties[] = [];
   @Input() public questionNumber: number = -1;
+  @Input() public questionFunction: Function = Function();
   public previousCard: string = "";
   public correct: number = 0;
-  @Output() nextQuestion: EventEmitter<string> = new EventEmitter<string>();
+  @Output() nextQuestionEmitter: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private deckOfCardsService: DeckOfCardsService, public dialog: MatDialog, private compareCardsService: CompareCardsService){
     //Goal 1
@@ -32,69 +33,12 @@ export class QuestionComponent {
     })
   }
 
-  answerQuestion(answer: string){
-    this.deckOfCardsService.drawCard().subscribe(result => {
-      var card = result.cards[0];
-      //Goal 3
-      if(this.questionNumber === 1){
-        this.previousCard = card.value;
-        var dialogRef = null;
-        if((answer === "Red" && (card.suit === "DIAMONDS" || card.suit === "HEARTS")) || (answer === "Black" && (card.suit === "SPADES" || card.suit === "CLUBS"))){
-          this.correct++;
-          //Goal 4
-          dialogRef = this.dialog.open(ResultScreenComponent, {disableClose: true, data: {question: this.questionNumber, card: card, success: true, correct: this.correct }});
-          dialogRef.afterClosed().subscribe(() => {
-            this.nextQuestion.emit();
-          });
-        }
-        else{
-          dialogRef = this.dialog.open(ResultScreenComponent, {disableClose: true, data: {question: this.questionNumber, card: card, success: false, correct: this.correct }});
-          dialogRef.afterClosed().subscribe(() => {
-            this.nextQuestion.emit();
-          });
-        }
-      }
-      //Goal 3
-      else if(this.questionNumber === 2){
-        var value = this.compareCardsService.compareCards(card.value, this.previousCard);
-        if((answer === "Higher" && value > 0) || (answer === "Lower" && value < 0)){
-          this.correct++;
-          //Goal 4
-          dialogRef = this.dialog.open(ResultScreenComponent, {disableClose: true, data: {question: this.questionNumber, card: card, success: true, correct: this.correct }});
-          dialogRef.afterClosed().subscribe(() => {
-            this.nextQuestion.emit();
-          });
-        }
-        else{
-          dialogRef = this.dialog.open(ResultScreenComponent, {disableClose: true, data: {question: this.questionNumber, card: card, success: false, correct: this.correct }});
-          dialogRef.afterClosed().subscribe(() => {
-            this.nextQuestion.emit();
-          });
-        }
-      }
-      //Goal 3
-      else{
-        if(answer === card.suit){
-          this.correct++;
-          //Goal 4
-          dialogRef = this.dialog.open(ResultScreenComponent, {disableClose: true, data: {question: this.questionNumber, card: card, success: true, correct: this.correct }});
-          dialogRef.afterClosed().subscribe(() => {
-            //Goal 7
-            this.dialog.open(ResultScreenComponent, {disableClose: true, data: {question: 4, card: card, success: true, correct: this.correct }});
-            this.nextQuestion.emit();
-          });
-        }
-        else{
-          dialogRef = this.dialog.open(ResultScreenComponent, {disableClose: true, data: {question: this.questionNumber, card: card, success: false, correct: this.correct }});
-          dialogRef.afterClosed().subscribe(() => {
-            //Goal 7
-            this.dialog.open(ResultScreenComponent, {disableClose: true, data: {question: 4, card: card, success: true, correct: this.correct }});
-            this.nextQuestion.emit();
-          });
-        }
-      }
-    });
-    
+  answerQuestion(answer:string){
+    this.questionFunction(answer);
+  }
+
+  nextQuestion(){
+    this.nextQuestionEmitter.emit();
   }
 
 }

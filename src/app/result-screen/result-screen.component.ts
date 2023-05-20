@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Card } from '../services/deck-of-cards.service';
 
 export interface DialogParameters{
-  question: number;
+  questionType: string;
   card: Card;
   success: boolean;
   correct: number;
@@ -30,13 +30,23 @@ export class ResultScreenComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if(this.data.question <= 3){
-      if(this.data.question === 3){
-        this.buttonText = "See Results";
+    if(this.data.questionType === "Regular"){
+      this.buttonText = "Next Question";
+      
+      if(this.data.success){
+        this.title = "That is correct!";
+        this.image = this.data.card.image;
+        this.body = "The card drawn was:";
       }
       else{
-        this.buttonText = "Next Question";
+        this.title = "That is incorrect!";
+        this.body = "The card drawn was:";
+        this.image = this.data.card.image;
       }
+    }
+    else if(this.data.questionType === "Last"){
+      this.buttonText = "See Results";
+      
       if(this.data.success){
         this.title = "That is correct!";
         this.image = this.data.card.image;
@@ -60,6 +70,7 @@ export class ResultScreenComponent implements OnInit{
         this.image = "assets/failure.gif";
       }
     }
+  
   }
 
   onClose(){
