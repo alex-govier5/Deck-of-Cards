@@ -56,7 +56,7 @@ export class ResultScreenComponent implements OnInit{
         this.image  ="assets/success.gif";
       }
       else{
-        this.title = "Nice try!";
+        this.title = "You Lose! Better Luck Next Time!";
         this.image = "assets/failure.gif";
       }
     }
