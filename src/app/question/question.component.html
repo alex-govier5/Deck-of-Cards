@@ -1,0 +1,9 @@
+<div class="question-container">
+    <h2>{{ question }}</h2>
+    <div class="button-container">
+       <button *ngFor="let button of buttonInputs" [ngStyle]="{'color': button.textColor, 'background-color': button.backgroundColor}" (click)="answerQuestion(button.text)">
+            {{ button.text }}
+       </button> 
+    </div>
+</div>
+
