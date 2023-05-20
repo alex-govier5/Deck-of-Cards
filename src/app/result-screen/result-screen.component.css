@@ -18,9 +18,14 @@ p{
     font-size: 1rem;
 }
 
-img{
+.card-image{
     width: 10rem;
     height: 12rem;
+}
+
+.result-image{
+    width: 15rem;
+    height: 15rem;
 }
 
 button{

@@ -20,7 +20,7 @@ export class ResultScreenComponent implements OnInit{
   public body: string = "";
   public buttonText: string = "";
   public image: string = "";
-  public finalMessage: string = "";
+  public resultScreen: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<ResultScreenComponent>,
@@ -59,6 +59,7 @@ export class ResultScreenComponent implements OnInit{
       }
     }
     else{
+      this.resultScreen = true;
       this.body = "You got "+this.data.correct+"/3!";
       this.buttonText = "End Game";
       if(this.data.correct === 3){

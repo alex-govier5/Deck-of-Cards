@@ -2,8 +2,8 @@
     <h2> {{ title }}</h2>
 
     <p>{{body}}</p>
-    <img src="{{image}}">
-    <p>{{ finalMessage }}</p>
+    <img class="card-image" *ngIf="!resultScreen" src="{{image}}">
+    <img class="result-image" *ngIf="resultScreen" src="{{image}}">
     <button mat-raised-button color="primary" (click)="onClose()">{{buttonText}}</button>
 </div>
 
